@@ -20,4 +20,17 @@ export class FsHelper {
             fileName: path.join(fileFolder,fileName)
         }
     }
+    async deleteFile(fileName: string) {
+        const fileFolder = path.join(process.cwd(),"uploads");
+        try {
+            if(fs.existsSync(fileName)) {
+                await fsPromises.unlink(fileName);
+            } else {
+                throw new Error("File does not exist");
+            }
+        } catch (error) {
+            console.log("Error deleting file");
+            
+        }
+    }
 };
