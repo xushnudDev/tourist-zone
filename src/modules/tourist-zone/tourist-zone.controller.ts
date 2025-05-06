@@ -4,6 +4,7 @@ import { CreateTouristZoneDto, UpdateTouristZoneDto } from "./dtos";
 import { FilesInterceptor } from "@nestjs/platform-express";
 import { CheckSizeFilePipe } from "../pipes/check-size.pipe";
 import { ParseIntCustomPipe } from "../pipes/parse-init.pipe";
+import { CheckFileMimeTypePipe } from "../pipes/check-file-mimetype.pipe";
 
 @Controller("zones")
 export class TouristZoneController {
@@ -18,7 +19,7 @@ export class TouristZoneController {
     @UseInterceptors(FilesInterceptor("images"))
     async createZone(
     @Body() payload: CreateTouristZoneDto,
-    @UploadedFiles(new CheckSizeFilePipe(3 * 1024 * 1024)) images: Express.Multer.File[]
+    @UploadedFiles(new CheckSizeFilePipe(3 * 1024 * 1024),new CheckFileMimeTypePipe(["image/png","image/jpeg","image/jpg"])) images: Express.Multer.File[]
 ) {
     return await this.service.create(payload, images);
 }
