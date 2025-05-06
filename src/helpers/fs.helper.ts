@@ -21,10 +21,11 @@ export class FsHelper {
         }
     }
     async deleteFile(fileName: string) {
-        const fileFolder = path.join(process.cwd(),"uploads");
+        const fileFolder = path.join(process.cwd(),"uploads",fileName);
+        console.log(fileFolder);
         try {
-            if(fs.existsSync(fileName)) {
-                await fsPromises.unlink(fileName);
+            if(fs.existsSync(fileFolder)) {
+                await fsPromises.unlink(fileFolder);
             } else {
                 throw new Error("File does not exist");
             }
